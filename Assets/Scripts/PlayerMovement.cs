@@ -27,17 +27,16 @@ public class PlayerMovement : MonoBehaviour
        // check if move 
        if (horizontalValue != 0 || verticalValue != 0)
        {
+           transform.position += new Vector3(
+               speed * horizontalValue * Time.deltaTime, // x value
+               speed * verticalValue * Time.deltaTime, // y value
+               0); // z value
+
+
+           float sign = 1;
+           if (horizontalValue < 0)
+               sign = -1;
            
-       transform.position += new Vector3(
-           speed * horizontalValue * Time.deltaTime, // x value
-           speed * verticalValue * Time.deltaTime, // y value
-           0); // z value
-
-
-       float sign = 1;
-       if (horizontalValue < 0)
-           sign = -1;
-       
            transform.localScale = new Vector3(
                sign * originalScale.x,
                originalScale.y,
