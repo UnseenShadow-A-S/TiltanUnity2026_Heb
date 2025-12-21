@@ -1,0 +1,42 @@
+using UnityEngine;
+
+public class EnemyController : MonoBehaviour
+{
+    public GameObject player;
+
+    public float deadZone = 0.05f;
+    public float delta = 0.05f;
+    
+    private Animator animator;
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Awake()
+    {
+        animator = GetComponent<Animator>();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        Vector3 enemyPosition = transform.position;
+
+        Vector3 playerPosition = player.transform.position;
+
+        Vector3 diff = playerPosition - enemyPosition;
+        float distance = diff.magnitude;
+        Debug.Log(distance);
+
+        if (distance < deadZone)
+        {
+            Debug.Log("Stop chasing");
+            animator.SetBool("IsWalking", false);
+        }
+        else
+        {
+            Debug.Log("chasing");
+            transform.position += diff.normalized* delta *Time.deltaTime;
+            animator.SetBool("IsWalking", true);
+        }
+
+    }
+   
+}
