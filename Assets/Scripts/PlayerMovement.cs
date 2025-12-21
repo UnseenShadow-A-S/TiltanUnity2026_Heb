@@ -19,19 +19,25 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     { 
-       float verticalValue = Input.GetAxis("Vertical");
-       float horizontalValue = Input.GetAxis("Horizontal");
-       
-       Debug.Log(Time.deltaTime);
+       float verticalValue = Input.GetAxisRaw("Vertical");
+       float horizontalValue = Input.GetAxisRaw("Horizontal");
+
+       bool rotatePressed = Input.GetButton("Rotate");
+       if (rotatePressed)
+            Debug.Log(rotatePressed);
        
        // check if move 
        if (horizontalValue != 0 || verticalValue != 0)
        {
+           /*
            transform.position += new Vector3(
                speed * horizontalValue * Time.deltaTime, // x value
                speed * verticalValue * Time.deltaTime, // y value
-               0); // z value
+               0); // z value*/
+           transform.position += Vector3.right * (speed * horizontalValue * Time.deltaTime);
+           transform.position += Vector3.up * (speed * verticalValue * Time.deltaTime);
 
+           
 
            float sign = 1;
            if (horizontalValue < 0)
