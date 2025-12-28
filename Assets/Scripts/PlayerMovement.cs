@@ -5,15 +5,23 @@ public class PlayerMovement : MonoBehaviour
     public float speed = 1.0f;
 
     Vector3 originalScale;
+    Animator animator;
     void Awake()
     {
         originalScale = transform.localScale;
+        
+        animator = GetComponent<Animator>();
     }
-
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         
+    }
+
+    public void Hit()
+    {
+        animator.SetTrigger("Hit");
     }
 
     // Update is called once per frame

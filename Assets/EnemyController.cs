@@ -8,11 +8,17 @@ public class EnemyController : MonoBehaviour
     public float delta = 0.05f;
     
     private Animator animator;
+    private bool FirstPunch = true;
+    
+    
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
         animator = GetComponent<Animator>();
     }
+    
+
 
     // Update is called once per frame
     void Update()
@@ -23,20 +29,49 @@ public class EnemyController : MonoBehaviour
 
         Vector3 diff = playerPosition - enemyPosition;
         float distance = diff.magnitude;
-        Debug.Log(distance);
+       // Debug.Log(distance);
 
         if (distance < deadZone)
         {
-            Debug.Log("Stop chasing");
+           // Debug.Log("Stop chasing");
             animator.SetBool("IsWalking", false);
+
+            if (FirstPunch)
+            {
+                animator.SetTrigger("Punch");
+
+               if (IsAnimationFinished("EnemyPunch"))
+               {
+                   Debug.Log("IsAnimationFinished");
+                   
+                   player.GetComponent<PlayerMovement>().Hit();
+                   FirstPunch = false;
+               }
+            }
         }
         else
         {
-            Debug.Log("chasing");
+           // Debug.Log("chasing");
             transform.position += diff.normalized* delta *Time.deltaTime;
             animator.SetBool("IsWalking", true);
         }
 
     }
-   
+
+    bool IsAnimationFinished(string animationName)
+    { 
+       Animator anim = GetComponent<Animator>();
+       AnimatorStateInfo info =  anim.GetCurrentAnimatorStateInfo(0);
+       if (info.IsName(animationName))
+       {
+           Debug.Log(info.normalizedTime);
+           if (info.normalizedTime >= 0.95f)
+           {
+               return true;
+           }
+
+       }
+       return false;
+    }
+
 }
