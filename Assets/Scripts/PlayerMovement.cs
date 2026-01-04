@@ -6,6 +6,10 @@ public class PlayerMovement : MonoBehaviour
 
     Vector3 originalScale;
     Animator animator;
+
+    public HUD hud;
+    
+    int health = 100; // initialize health with 100 points
     void Awake()
     {
         originalScale = transform.localScale;
@@ -57,4 +61,10 @@ public class PlayerMovement : MonoBehaviour
                originalScale.z);
        }
     } 
+    
+    public void DealDamage(int damage)
+    {
+        health = Mathf.Clamp(health - damage, 0, 100);
+        hud.UpdateHealthText(health);
+    }
 }

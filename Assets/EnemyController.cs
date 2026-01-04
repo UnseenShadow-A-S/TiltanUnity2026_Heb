@@ -9,7 +9,9 @@ public class EnemyController : MonoBehaviour
     
     private Animator animator;
     private bool FirstPunch = true;
-    
+
+    public int damage = 10;
+   
     
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -46,6 +48,9 @@ public class EnemyController : MonoBehaviour
                    
                    player.GetComponent<PlayerMovement>().Hit();
                    FirstPunch = false;
+                   
+                   // call the function that deals damage on hud
+                   player.GetComponent<PlayerMovement>().DealDamage(damage);
                }
             }
         }
