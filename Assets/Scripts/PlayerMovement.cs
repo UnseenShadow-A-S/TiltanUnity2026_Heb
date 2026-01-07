@@ -3,24 +3,17 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public float speed = 1.0f;
-
-    Vector3 originalScale;
-    Animator animator;
-
     public HUD hud;
     
+    Vector3 originalScale;
+    Animator animator;
     int health = 100; // initialize health with 100 points
+    
     void Awake()
     {
         originalScale = transform.localScale;
         
         animator = GetComponent<Animator>();
-    }
-    
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
     }
 
     public void Hit()
