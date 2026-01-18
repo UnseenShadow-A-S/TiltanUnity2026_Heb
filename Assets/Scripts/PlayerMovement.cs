@@ -9,6 +9,8 @@ public class PlayerMovement : MonoBehaviour
     Animator animator;
     int health = 100; // initialize health with 100 points
     public int MaxHealth = 100;
+
+    public Collider2D NavArea;
     
     void Awake()
     {
@@ -43,8 +45,14 @@ public class PlayerMovement : MonoBehaviour
                speed * horizontalValue * Time.deltaTime, // x value
                speed * verticalValue * Time.deltaTime, // y value
                0); // z value*/
-           transform.position += Vector3.right * (speed * horizontalValue * Time.deltaTime);
-           transform.position += Vector3.up * (speed * verticalValue * Time.deltaTime);
+           
+           Vector3 deltaX  = Vector3.right * (speed * horizontalValue * Time.deltaTime);
+           Vector3 deltaY  = Vector3.up * (speed * verticalValue * Time.deltaTime);
+           Vector3 target = transform.position +  deltaX + deltaY;
+           
+           // check if the next position is inside the walkable area
+           if (NavArea.OverlapPoint(target))
+                transform.position = target;
 
            
 
@@ -66,5 +74,30 @@ public class PlayerMovement : MonoBehaviour
         hud.UpdateHealthText(health);
         
         hud.UpdateHealthBar(damage, MaxHealth);
+    }
+    
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        Debug.Log("enter trigger: " + other.name);
+        if (other.gameObject.CompareTag("EnemyFeet"))
+        {
+            Debug.Log("Enter collider of enemy feet");
+        }
+
+        if (other.gameObject.CompareTag("EnemyPunch"))
+        {
+            DealDamage(100);
+
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        Debug.Log("exit trigger: " + other.name);
+        
+        if (other.gameObject.CompareTag("EnemyFeet"))
+        {
+            Debug.Log("Exit collider of enemy feet");
+        }
     }
 }

@@ -1,7 +1,19 @@
+using System;
 using UnityEngine;
+
+
+public enum enemyState
+{
+    Unaware,
+    ChasePlayer,
+    Attack,
+    ReturnToPosition,
+    Dead
+}
 
 public class EnemyController : MonoBehaviour
 {
+    private enemyState state = enemyState.Unaware;
     public GameObject player;
 
     public float deadZone = 0.05f;
@@ -42,13 +54,13 @@ public class EnemyController : MonoBehaviour
 
                if (IsAnimationFinished("EnemyPunch"))
                {
-                   Debug.Log("IsAnimationFinished");
+                  // Debug.Log("IsAnimationFinished");
                    
                    player.GetComponent<PlayerMovement>().Hit();
                    FirstPunch = false;
                    
                    // call the function that deals damage on hud
-                   player.GetComponent<PlayerMovement>().DealDamage(-damage);
+                //   player.GetComponent<PlayerMovement>().DealDamage(-damage);
                }
             }
         }
@@ -67,7 +79,7 @@ public class EnemyController : MonoBehaviour
        AnimatorStateInfo info =  anim.GetCurrentAnimatorStateInfo(0);
        if (info.IsName(animationName))
        {
-           Debug.Log(info.normalizedTime);
+          // Debug.Log(info.normalizedTime);
            if (info.normalizedTime >= 0.95f)
            {
                return true;
@@ -76,5 +88,6 @@ public class EnemyController : MonoBehaviour
        }
        return false;
     }
+
 
 }

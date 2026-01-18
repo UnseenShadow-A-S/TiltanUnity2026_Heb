@@ -6,12 +6,15 @@ public class GameManager : MonoBehaviour
 {
     public GameObject HUD;
     public GameObject PauseMenu;
+    public GameObject EnemyPrefab;
     
     string PauseMenuButton = "PauseGame";
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         ShowPauseMenu();
+
+      
     }
 
     void ShowPauseMenu()
@@ -28,6 +31,8 @@ public class GameManager : MonoBehaviour
         PauseMenu.SetActive(false);
 
         Time.timeScale = 1;
+        
+        SpawnEnemies(10);
     }
 
     public void QuitGame()
@@ -45,5 +50,13 @@ public class GameManager : MonoBehaviour
             ShowPauseMenu();
         }
     }
-    
+
+    void SpawnEnemies(int amount)
+    {
+        for (int i = 0; i < amount; i++)
+        {
+            GameObject enemy = Instantiate(EnemyPrefab, new Vector3(i * 0.5f, 0, 0), Quaternion.identity);
+        }
+    }
+
 }
