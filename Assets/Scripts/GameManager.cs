@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
 {
     public GameObject HUD;
     public GameObject PauseMenu;
-    public GameObject EnemyPrefab;
+    public GameObject[] EnemyPrefab;
     
     string PauseMenuButton = "PauseGame";
 
@@ -60,7 +60,7 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < amount; i++)
         {
-            GameObject enemy = Instantiate(EnemyPrefab, new Vector3(i * 0.5f, 0, 0), Quaternion.identity);
+            GameObject enemy = Instantiate(EnemyPrefab[1], new Vector3(i * 0.5f, 0, 0), Quaternion.identity);
             yield return new WaitForSeconds(SpawnDelay);
         }
     }

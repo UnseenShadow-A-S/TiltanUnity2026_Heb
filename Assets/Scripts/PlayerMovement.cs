@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -11,12 +12,16 @@ public class PlayerMovement : MonoBehaviour
     public int MaxHealth = 100;
 
     public Collider2D NavArea;
+    bool bJumpPressed = false;
+    private Rigidbody2D rb;
+    public int JumpForce = 1;
     
     void Awake()
     {
         originalScale = transform.localScale;
         
         animator = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody2D>();
     }
 
     public void Hit()
@@ -65,8 +70,23 @@ public class PlayerMovement : MonoBehaviour
                originalScale.y,
                originalScale.z);
        }
-    } 
-    
+
+       if (Input.GetButtonDown("Jump"))
+       {
+           bJumpPressed = true;
+       }
+    }
+
+    private void FixedUpdate()
+    {
+        if (bJumpPressed)
+        {
+            bJumpPressed = false;
+           // rb.bodyType = RigidbodyType2D.Dynamic;
+            rb.AddForce(Vector2.up * JumpForce, ForceMode2D.Impulse);
+        }
+    }
+
     public void DealDamage(int damage)
     {
         health = Mathf.Clamp(health - damage, 0, 100);
