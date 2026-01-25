@@ -30,12 +30,17 @@ public class EnemyController : MonoBehaviour
     {
         animator = GetComponent<Animator>();
 
+        GetReferenceToPlayer();
+    }
+
+    void GetReferenceToPlayer()
+    {
         GameObject obj = GameObject.FindGameObjectWithTag("Player");
         // found the player
         if (obj != null)
             player = obj.GetComponent<PlayerMovement>();
     }
-    
+
     // Update is called once per frame
     void Update()
     {
