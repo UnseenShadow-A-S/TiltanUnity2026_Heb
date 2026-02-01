@@ -15,6 +15,15 @@ public class PlayerMovement : MonoBehaviour
     bool bJumpPressed = false;
     private Rigidbody2D rb;
     public int JumpForce = 1;
+
+    [SerializeField]
+    private Transform Feet;
+    
+    [SerializeField]
+    private float distanceFromFeet = 0.1f;
+    
+    [SerializeField]
+    private LayerMask groundMask;
     
     void Awake()
     {
@@ -30,10 +39,32 @@ public class PlayerMovement : MonoBehaviour
         hud.UpdateHealthText(health);
     }
 
+    bool IsGrounded()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(
+            Feet.position,
+            Vector2.down,
+            distanceFromFeet, 
+            groundMask);
+        
+
+        Debug.DrawRay(Feet.position, Vector2.down * distanceFromFeet,  Color.red);
+        // if we hit something
+        bool bHit = hit.collider != null;
+      //  if (bHit)
+       //     Debug.Log(hit.collider.name);
+        
+        return bHit;
+    }
+
     // Update is called once per frame
     void Update()
     { 
         if (Time.timeScale == 0) return;
+        
+       // IsGrounded();
+        if (!IsGrounded())
+            Debug.Log("in air");
         
        float verticalValue = Input.GetAxisRaw("Vertical");
        float horizontalValue = Input.GetAxisRaw("Horizontal");
@@ -98,10 +129,10 @@ public class PlayerMovement : MonoBehaviour
     
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("enter trigger: " + other.name);
+       // Debug.Log("enter trigger: " + other.name);
         if (other.gameObject.CompareTag("EnemyFeet"))
         {
-            Debug.Log("Enter collider of enemy feet");
+          //  Debug.Log("Enter collider of enemy feet");
         }
 
         if (other.gameObject.CompareTag("EnemyPunch"))
@@ -113,11 +144,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        Debug.Log("exit trigger: " + other.name);
+       // Debug.Log("exit trigger: " + other.name);
         
         if (other.gameObject.CompareTag("EnemyFeet"))
         {
-            Debug.Log("Exit collider of enemy feet");
+          //  Debug.Log("Exit collider of enemy feet");
         }
     }
 }

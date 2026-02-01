@@ -27,6 +27,14 @@ public class EnemyController : MonoBehaviour
     public int damage = 10;
 
     public float delayBetweenAttacks = 2.0f;
+
+    private Sight sight;
+
+    void Awake()
+    {
+        sight = GetComponent<Sight>();
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -54,7 +62,10 @@ public class EnemyController : MonoBehaviour
         float distance = diff.magnitude;
        // Debug.Log(distance);
 
-        if (distance < deadZone)
+
+
+
+       if (distance < deadZone)
         {
            // Debug.Log("Stop chasing");
            
@@ -64,7 +75,7 @@ public class EnemyController : MonoBehaviour
             if (state == enemyState.ChasePlayer)
                 StartCoroutine(Attack());
         }
-        else
+        else if (sight.IsSeePlayer())
         {
            // Debug.Log("chasing");
             transform.position += diff.normalized* delta *Time.deltaTime;

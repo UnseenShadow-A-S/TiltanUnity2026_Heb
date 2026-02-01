@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
 
         Time.timeScale = 1;
         
-        StartCoroutine(SpawnEnemies(10));
+       // StartCoroutine(SpawnEnemies(10));
     }
 
     public void QuitGame()
